@@ -1,5 +1,11 @@
-# Import
+# Import libs
 import csv
+
+# Import modules
+from module.sql import *
+
+# Init DB if not exists
+create_db()
 
 # CSV 파일 읽기
 with open('student.csv', 'r', encoding='utf-8') as file:
