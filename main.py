@@ -1,27 +1,24 @@
-# Import libs
+# 라이브러리 불러오기
 import csv
 
-# Import modules
+# 사용자 지정 모듈 불러오기
 from module.sql import *
 
-# Init DB if not exists
+# DB가 없다면 생성
 create_db()
 
 # CSV 파일 읽기
 with open('student.csv', 'r', encoding='utf-8') as file:
+    # 데이터 불러오기
     reader = csv.reader(file)
 
+    # 데이터 인덱스 없애기
     data = [row for row in reader][1:]
 
     for row in data:
-        print(f'이름: {row[0]}')
-        print(f'학년: {row[1]}')
-        print(f'반: {row[2]}')
-        print(f'번호: {row[3]}')
-        print('=' * 10)
-        print()
+        # 학생 데이터가 이미 존재하는지 확인
+        student_exists = None != get_student(name=row[0], grade=row[1], class_number=row[2], number=row[3])
 
-        insert_student(name=row[0],
-                       grade=row[1],
-                       class_number=row[2],
-                       number=row[3])
+        # 학생 데이터가 존재하지 않는다면 추가
+        if not student_exists:
+            insert_student(name=row[0], grade=row[1], class_number=row[2], number=row[3])
