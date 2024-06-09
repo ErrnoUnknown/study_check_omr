@@ -4,7 +4,7 @@ import sqlite3
 # SQL 데코레이터 정의
 def sql_decorator(func):
     def decorated(*args, **kwargs):
-        conn = sqlite3.connect('main.db')
+        conn = sqlite3.connect('db/main.db')
         cursor = conn.cursor()
 
         result = func(cursor=cursor, *args, **kwargs)
@@ -41,6 +41,24 @@ def insert_student(cursor, name, grade, class_number, number):
     '''
 
     cursor.execute(query, (name, grade, class_number, number, ''))
+
+# 모든 학생 데이터를 불러오는 함수 정의
+@sql_decorator
+def get_all_students(cursor):
+    query = '''
+    SELECT * FROM student
+    '''
+
+    cursor.execute(query)
+
+    results = cursor.fetchall()
+
+    return [{'id': row[0],
+             'name': row[1],
+             'grade': row[2],
+             'class_number': row[3],
+             'number': row[4],
+             'check_date': row[5]} for row in results]
 
 # 학생 데이터를 불러오는 함수 정의
 @sql_decorator
