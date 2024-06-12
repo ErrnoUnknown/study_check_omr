@@ -41,17 +41,14 @@ def put_image_over(bg_input_path, overlay_input_path, output_path, position):
 # 텍스트 오버레이 함수 정의
 def put_text_over(input_path, output_path, position, text, text_color, size, text_ttf_path):
     # 이미지 열기
-    img = cv2.imread(input_path)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = Image.fromarray(img)
+    img = Image.open(input_path)
 
     # 폰트 열기
     font = ImageFont.truetype(text_ttf_path, size)
 
     # 이미지 처리
-    img = ImageDraw.Draw(img)
-    img.text(position, text, font=font, fill=text_color + (0))
+    draw = ImageDraw.Draw(img)
+    draw.text(position, text, font=font, fill=text_color)
 
     # 이미지 저장
-    img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-    cv2.imwrite(output_path, img)
+    img.save(output_path)

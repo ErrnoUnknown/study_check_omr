@@ -4,7 +4,7 @@ import sqlite3
 # SQL 데코레이터 정의
 def sql_decorator(func):
     def decorated(*args, **kwargs):
-        conn = sqlite3.connect('db/main.db')
+        conn = sqlite3.connect('main.db')
         cursor = conn.cursor()
 
         result = func(cursor=cursor, *args, **kwargs)
