@@ -32,16 +32,19 @@ def generate_study_check_doc():
     # 학생 데이터 가져오기
     students = mdl_sql.get_all_students()
 
-    # 학생 정보 추가
-    mdl_image.create_white_image('temp/white.png', (250, 2500))
+    # 결과 이미지 틀 생성
+    mdl_image.create_white_image('temp/result.png', (2000, 2000))
 
+    # 결과 이미지 편집
     for index, student in enumerate(students):
+        # 학생 ID QR 코드 생성 및 저장
         img = qrcode.make(str(student['id']), box_size=10, border=0)
 
-        # 학생 ID QR코드 생성 및 저장
         img.save('temp/qr.png')
         mdl_image.resize_img('temp/qr.png', 'temp/qr.png', (100, 100))
 
-        mdl_image.put_image_over('temp/white.png', 'temp/qr.png', 'temp/white.png', (50, index * 200))
+        # aaa
+        mdl_image.put_image_over('temp/result.png', 'temp/qr.png', 'temp/result.png', (50, (index + 1) * 200))
 
+        mdl_image.put_text_over('temp/result.png', 'temp/result.png', )
 generate_study_check_doc()
